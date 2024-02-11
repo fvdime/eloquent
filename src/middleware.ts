@@ -10,12 +10,15 @@ interface AuthenticatedRequest extends NextRequest {
 let redirectToLogin = false;
 
 export async function middleware(req: NextRequest) {
-  let token: string | undefined;
 
-  if (req.cookies.has("token")) {
-    token = req.cookies.get("token")?.value;
-  } else if (req.headers.get("Authorization")?.startsWith("Bearer ")) {
-    token = req.headers.get("Authorization")?.substring(7);
+  const { url, nextUrl, cookies } = req;
+
+  let { value: token } = cookies.get('token') ?? {
+    value: null,
+  };
+
+  if (!token) {
+    token = req?.headers?.get("Authorization")?.substring(7) || null;
   }
 
   if (req.nextUrl.pathname.startsWith("/auth") && (!token || redirectToLogin))
@@ -70,5 +73,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile", "/login", "/api/users/:path*", "/api/auth/logout"],
+  matcher: ["/admin/:path*", "/login", "/api/users/:path*", "/api/auth/logout", "/api/post/delete/:path*", "/api/post/update/:path*", "/api/post/create"],
 };

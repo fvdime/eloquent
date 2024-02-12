@@ -1,7 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  background-color: rgb(9 9 11);
+}
+
 .clip {
   clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animation-spin {
+  animation: spin 8s linear infinite;
 }

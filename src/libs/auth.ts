@@ -1,28 +1,9 @@
 import { jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 
-// export function getJwtSecretKey() {
-//   const secret = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
-
-//   if (!secret) {
-//     throw new Error('JWT Secret key is not matched');
-//   }
-
-//   return new TextEncoder().encode(secret);
-// }
-
-// export async function verifyJwtToken(token: string) {
-//   try {
-//     const { payload } = await jwtVerify(token, getJwtSecretKey());
-
-//     return payload;
-//   } catch (error) {
-//     return null;
-//   }
-// }
 
 export const signJWT = async (
-  payload: { sub: string },
+  payload: { sub: string, role: string },
   options: { exp: string }
 ) => {
   try {

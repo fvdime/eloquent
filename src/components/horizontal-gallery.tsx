@@ -13,7 +13,7 @@ export default function HorizontalGallery() {
   const skills = useRef(null)
 
   useEffect(() => {
-    let skillSet = gsap.utils.toArray('.skill-set')
+    let skillSet = gsap.utils.toArray('.sec')
 
     let to = gsap.to(skillSet, {
       xPercent: () => -100*(skillSet.length - 1),
@@ -47,7 +47,7 @@ export default function HorizontalGallery() {
         >
           <section
           ref={skills}
-          className='skill-set px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
+          className='sec px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
           >
             <Image
               src="/malice.jpg"
@@ -59,7 +59,7 @@ export default function HorizontalGallery() {
           </section>
           <section
           ref={skills}
-          className='skill-set px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
+          className='sec px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
           >
             <Image
               src="/malice.jpg"
@@ -71,7 +71,7 @@ export default function HorizontalGallery() {
           </section>
           <section
           ref={skills}
-          className='skill-set px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
+          className='sec px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
           >
             <Image
               src="/malice.jpg"
@@ -83,7 +83,7 @@ export default function HorizontalGallery() {
           </section>
           <section
           ref={skills}
-          className='skill-set px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
+          className='sec px-12 w-screen h-full bg-transparent flex items-center z-50 relative'
           >
             <Image
               src="/malice.jpg"

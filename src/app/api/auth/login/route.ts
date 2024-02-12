@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     const token = await signJWT(
-      { sub: user.id! },
+      { sub: user.id!, role: user.role! },
       { exp: "4h" }
     )
 

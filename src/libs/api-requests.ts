@@ -27,6 +27,10 @@ async function handleResponse<T>(response: Response): Promise<T> {
   const data = isJson ? await response.json() : await response.text();
 
   if (!response.ok) {
+    if (response.status === 403) { // Handle Forbidden error
+      throw new Error("You don't have permission to access this resource.");
+    }
+
     if (isJson && data.errors !== null) {
       throw new Error(JSON.stringify(data.errors));
     }
@@ -36,6 +40,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
   return data as T;
 }
+
 
 export async function apiRegisterUser(
   credentials: string

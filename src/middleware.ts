@@ -25,6 +25,12 @@ export async function middleware(req: NextRequest) {
     return;
   }
 
+  if (nextUrl.pathname.startsWith("/api/auth/login")) {
+    console.log("Allowing access to /api/auth/login without authentication");
+    return NextResponse.next();
+  }
+
+
   if (
     !token &&
     (nextUrl.pathname.startsWith("/api/auth/logout"))
@@ -102,7 +108,7 @@ export async function middleware(req: NextRequest) {
 
 
   // Redirect authenticated users to home if they try to access /auth
-  
+
   console.log("Allowing access to:", nextUrl.pathname);
   return response;
 }

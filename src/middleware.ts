@@ -11,7 +11,7 @@ interface AuthenticatedRequest extends NextRequest {
 let redirectToLogin = false;
 
 export async function middleware(req: NextRequest) {
-  const { url, nextUrl, cookies } = req;
+  const { nextUrl, cookies } = req;
   let { value: token } = cookies.get('token') ?? { value: null };
 
   if (!token) {
@@ -30,6 +30,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  if (nextUrl.pathname === "/" && !token) {
+    return NextResponse.next();
+  }
 
   if (
     !token &&

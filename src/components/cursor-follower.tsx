@@ -1,10 +1,12 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Lenis from '@studio-freight/lenis'
 import { useSpring, motion } from 'framer-motion';
 import Vignette from './vignette';
+import { PostTypes } from '@/libs/types';
 
+// MOCKUP DATA
 const data = [
   {
     id: 1,
@@ -29,7 +31,11 @@ const data = [
   }
 ]
 
-export default function CursorFollower() {
+interface HomeProps {
+  featuredPosts: PostTypes[];
+}
+
+export default function CursorFollower({ featuredPosts }: HomeProps) {
 
   const spring = {
     stiffness: 150,
@@ -65,8 +71,8 @@ export default function CursorFollower() {
   return (
     <main onMouseMove={mouseTracker} className='max-w-screen-lg mx-auto'>
       {
-        data.map( (item, i) => {
-          return <Vignette mousePosition={mousePosition} item={item} key={i}/>
+        featuredPosts.map((item: PostTypes) => {
+          return <Vignette mousePosition={mousePosition} item={item} key={item.id}/>
         })
       }
     </main>

@@ -10,6 +10,12 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.509.0",
+    "@editorjs/code": "^2.9.0",
+    "@editorjs/editorjs": "^2.29.0",
+    "@editorjs/header": "^2.8.1",
+    "@editorjs/image": "^2.9.0",
+    "@editorjs/list": "^1.9.0",
+    "@editorjs/table": "^2.3.0",
     "@prisma/client": "^5.9.1",
     "@studio-freight/lenis": "^1.0.34",
     "axios": "^1.6.7",

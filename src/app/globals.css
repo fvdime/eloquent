@@ -4,9 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  background-color: rgb(9 9 11);
-}
 
 .clip {
   clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);

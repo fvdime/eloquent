@@ -1,3 +1,4 @@
+import { getFeaturedPost } from "@/actions/post.actions";
 import CursorFollower from "@/components/cursor-follower";
 import Footer from "@/components/footer";
 import HeroBanner from "@/components/hero-banner";
@@ -9,10 +10,14 @@ export default async function Home() {
 
   // const user = await apiGetAuthUser(token?.value);
 
+  const featuredPosts = await getFeaturedPost()
+
+  // console.log(featuredPosts)
+
   return (
     <>
       <HeroBanner />
-      <CursorFollower />
+      <CursorFollower featuredPosts={featuredPosts}/>
       <div className="h-screen w-full bg-pink-600"></div>
       <HorizontalGallery/>
       <div className="h-screen w-full bg-pink-600"></div>

@@ -8,7 +8,7 @@
 
 // const EXP_TIME = 30 * 24 * 60 * 60 * 1000
 
-// const createSchema = z.object({
+// const registerSchema = z.object({
 //   name: z.string().min(1),
 //   password: z.string().min(6),
 //     email: z
@@ -19,34 +19,34 @@
 
 // export const register = async (formData: FormData) => {
 
-//   // const name = formData.get("name")
-//   // const email = formData.get("email")
-//   // const password = formData.get("password")
+//   // const name = formData.get("name") ;
+//   // const email = formData.get("email") ;
+//   // const password = formData.get("password") as string | null;
 
-//   const isValidData = createSchema.parse({
-//     name: formData.get("name"),
-//     email: formData.get("email"),
-//     password: formData.get("password"),
-//   })
-
-//   let data;
-
-//   if (!isValidData.name || !isValidData.email || !isValidData.password) {
-//     return new NextResponse("Missing Credentials!", { status: 400 })
-//   }
-
-//   const existingUser = await prisma.user.findFirst({
-//     where: {
-//       email: isValidData.email 
-//     }
-//   })
-
-//   if (existingUser) return new NextResponse("User already exists!", { status: 401 })
-
-//   const hashedPassword = await bcrypt.hash(isValidData.password, 12)
-
+  
 //   try {
-//     data = await prisma.user.create({
+//     const isValidData = registerSchema.parse({
+//       name: formData.get("name") as string | null,
+//       email: formData.get("email") as string | null,
+//       password: formData.get("password") as string | null,
+//     })
+  
+//     console.log(isValidData)
+//     if (!isValidData.name || !isValidData.email || !isValidData.password) {
+//       return new NextResponse("Missing Credentials!", { status: 400 })
+//     }
+  
+//     const existingUser = await prisma.user.findFirst({
+//       where: {
+//         email: isValidData.email 
+//       }
+//     })
+  
+//     if (existingUser) return new NextResponse("User already exists!", { status: 401 })
+  
+//     const hashedPassword = await bcrypt.hash(isValidData.password, 12)
+
+//     const newUser = await prisma.user.create({
 //       data: {
 //         email: isValidData.email,
 //         name: isValidData.name,
@@ -54,11 +54,14 @@
 //       }
 //     })
 
-//     if (data) {
+//     if (newUser) {
 //       const token = await signJWT(
-//         { sub: data.id! },
-//         { exp: "4h" }
+//         { sub: newUser.id!, role: newUser.role! },
+//         { exp: "8h" }
 //       )
+
+//       console.log("NEW USER::::::", JSON.stringify(newUser));
+
   
 //       const tokenMaxAge = EXP_TIME * 60
   
@@ -91,7 +94,4 @@
 //     return console.log(error)
 //   }
 
-//   return {
-//     data,
-//   };
 // }

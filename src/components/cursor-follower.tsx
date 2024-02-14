@@ -5,6 +5,7 @@ import Lenis from '@studio-freight/lenis'
 import { useSpring, motion } from 'framer-motion';
 import Vignette from './vignette';
 import { PostTypes } from '@/libs/types';
+import Link from 'next/link';
 
 // MOCKUP DATA
 const data = [
@@ -69,12 +70,20 @@ export default function CursorFollower({ featuredPosts }: HomeProps) {
   } 
 
   return (
-    <main onMouseMove={mouseTracker} className='max-w-screen-lg mx-auto'>
-      {
-        featuredPosts.map((item: PostTypes) => {
-          return <Vignette mousePosition={mousePosition} item={item} key={item.id}/>
-        })
-      }
+    <main onMouseMove={mouseTracker} className='h-full w-full py-16'>
+      <div className='max-w-screen-lg mx-auto p-4 md:p-0'>
+        <div className='flex flex-row justify-center items-center gap-1 w-full mb-8'>
+        <h1 className='text-4xl lg:text-6xl font-PlayfairDisplay'>Loud Thoughts</h1>
+        <hr className="w-full h-0.5 mx-auto border-0 rounded md:my-10 bg-zinc-300" />
+        <Link href="/work" className='text-2xl lg:text-4xl font-PlayfairDisplay text-end'>See All</Link>
+
+        </div>
+        {
+          featuredPosts.map((item: PostTypes) => {
+            return <Vignette mousePosition={mousePosition} item={item} key={item.id}/>
+          })
+        }
+      </div>
     </main>
   )
 }

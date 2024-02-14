@@ -3,6 +3,7 @@ import CursorFollower from "@/components/cursor-follower";
 import Footer from "@/components/footer";
 import HeroBanner from "@/components/hero-banner";
 import HorizontalGallery from "@/components/horizontal-gallery";
+import Slide from "@/components/slide";
 
 export default async function Home() {
   // const cookieStore = cookies();
@@ -17,10 +18,10 @@ export default async function Home() {
   return (
     <>
       <HeroBanner />
-      <CursorFollower featuredPosts={featuredPosts}/>
-      <div className="h-screen w-full bg-pink-600"></div>
+      <div className="h-[5vh] w-full"/>
       <HorizontalGallery/>
-      <div className="h-screen w-full bg-pink-600"></div>
+      <div className="h-[30vh] w-full"/>
+      <CursorFollower featuredPosts={featuredPosts}/>
       <Footer />
     </>
   );

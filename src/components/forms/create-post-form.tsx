@@ -46,20 +46,20 @@ export default function CreatePostForm() {
               className="flex items-center space-x-1 rtl:space-x-reverse"
             >
               <span className="rotate-180 text-lg">➺</span>
-              <span className="self-center text-sm whitespace-nowrap font-semibold hover:underline">
+              <span className="self-center text-sm whitespace-nowrap font-semibold hover:underline hidden md:flex">
                 eloquent admin
               </span>
             </Link>
             <input
               type="text"
               placeholder="Untitled Document"
-              className="w-full px-4 py-2 placeholder:text-xs text-sm rounded-3xl  outline-none transition"
+              className="w-full px-4 py-2 placeholder:text-xs text-sm rounded-3xl outline-none transition"
             />
           </div>
-          <div className="flex space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <div className="">
             <Link
               href="/admin/create"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-1.5 text-center"
+              className="text-white bg-zinc-700 hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-zinc-300 font-medium rounded-lg text-sm px-4 md:px-6 py-1.5 text-center"
             >
               Post ₊˚⊹♡
             </Link>

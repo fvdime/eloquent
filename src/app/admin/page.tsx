@@ -3,14 +3,14 @@ import React from "react";
 
 export default function AdminPage() {
   return (
-    <div className="max-w-screen-lg mx-auto p-4 md:p-0 my-8">
+    <div className="max-w-screen-lg mx-auto p-4 lg:p-0 my-8">
       <div>
         <h1 className="text-2xl font-semibold">Welcome Admin!</h1>
       </div>
       <div className="w-full h-full">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-4">
           {/* UPLOAD SECTION */}
-          <div className="h-[50vh] border rounded border-gray-300 w-full flex flex-col justify-between items-center shadow-md hover:shadow-lg">
+          <div className="h-[30vh] lg:h-[50vh] border rounded border-gray-300 w-full flex flex-col justify-between items-center shadow-md hover:shadow-lg">
             <Link
               href="/admin/create"
               className="flex flex-col w-full h-full items-center justify-center hover:text-blue-800 gap-4 text-lg"
@@ -41,7 +41,7 @@ export default function AdminPage() {
             </Link>
 
           </div>
-          <div className="h-[50vh] border rounded border-gray-300 w-full flex flex-col justify-between items-center shadow-md hover:shadow-lg hover:bg-zinc-50">
+          <div className="h-[30vh] lg:h-[50vh] border rounded border-gray-300 w-full flex flex-col justify-between items-center shadow-md hover:shadow-lg hover:bg-zinc-50">
             <span
               className="w-full h-full text-start p-4 overflow-hidden text-sm"
             >

@@ -15,6 +15,8 @@ const config: Config = {
       },
       fontFamily: {
         Cinzel: ['Cinzel', 'serif'],
+        Merriweather: ['Merriweather', 'serif'],
+        PlayfairDisplay: ["Playfair Display", "serif"]
       }
     },
   },

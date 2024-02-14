@@ -30,9 +30,14 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (nextUrl.pathname === "/" && !token) {
+  if (nextUrl.pathname === "/" || nextUrl.pathname.startsWith("/work") && !token) {
     return NextResponse.next();
   }
+  // Allow access to /, /work, and /work/:path* for all users
+  // if (nextUrl.pathname.startsWith("/") || nextUrl.pathname.startsWith("/work")) {
+  //   console.log("Allowing access to:", nextUrl.pathname);
+  //   return NextResponse.next();
+  // }
 
   if (
     !token &&
@@ -89,7 +94,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", nextUrl.href));
   }
 
-
   if (authUser.role === 'user') {
     console.log("USERRRRRRRRRRRRR", authUser.role);
   }
@@ -99,18 +103,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/access-denied", nextUrl.href));
   }
 
-  // Allow access to /, /blog, and /blog/:path* for all users
-  if (nextUrl.pathname.startsWith("/") || nextUrl.pathname.startsWith("/post")) {
-    console.log("Allowing access to:", nextUrl.pathname);
-    return response;
-  }
-
   if (authUser && authUser.role === 'user') {
     console.log("USERRRRRRRRRRRRR", authUser.role);
   }
-
-
-  // Redirect authenticated users to home if they try to access /auth
 
   console.log("Allowing access to:", nextUrl.pathname);
   return response;
@@ -118,5 +113,5 @@ export async function middleware(req: NextRequest) {
 
 
 export const config = {
-  matcher: ["/", "/post/:path*", "/api/:path*", "/admin/:path*", "/auth"],
+  matcher: ["/", "/work/:path*", "/api/:path*", "/admin/:path*", "/auth"],
 };

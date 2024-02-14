@@ -1,4 +1,4 @@
-import Navbar from '@/components/admin-props/navbar';
+import Navbar from '@/components/navbar';
 import React from 'react'
 
 export default function AdminLayout({

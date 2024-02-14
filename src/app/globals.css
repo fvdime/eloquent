@@ -1,9 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+.bg-home{
+  background: #000;
+}
 
 .clip {
   clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
@@ -16,4 +21,17 @@
 }
 .animation-spin {
   animation: spin 8s linear infinite;
+}
+
+.text-slider {
+  animation: slideText 16s linear infinite;
+}
+
+@keyframes slideText {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }

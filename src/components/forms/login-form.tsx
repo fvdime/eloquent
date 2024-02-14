@@ -3,8 +3,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import toast, { Toaster } from 'react-hot-toast'
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
+
   // const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,8 +28,14 @@ export default function LoginForm() {
         "http://localhost:3000/api/auth/login",
         formData
       );
+      
+      toast.success('Successfully!')
+      router.push("/admin")
+      
       console.log("Response:", response.data);
     } catch (error) {
+      router.refresh()
+      toast.error('Permission denied!')
       console.error("Error:", error);
     }
   };
@@ -94,7 +104,7 @@ export default function LoginForm() {
         </div>
       </form>
       <div className="hidden md:flex h-screen w-3/12"></div>
-      {/* <Toaster position="top-right" reverseOrder={false} /> */}
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 }

@@ -28,13 +28,14 @@ export const deletePost = async (id: any) => {
   try {
     await prisma.post.delete({
       where: { id }
-    })
+    });
 
-    console.log("deleted from db")
+    console.log("Deleted post from database");
   } catch (error) {
-    throw new Error("Failed to fetch delete post!")
+    console.error("Error deleting post:", error);
+    throw new Error("Failed to delete post");
   }
-}
+};
 
 export const updatePost = async ({ formData, id }: { formData: FormData, id: any }) => {
 
@@ -87,7 +88,11 @@ export const getSinglePost = async (id: any) => {
 
 export const getPosts = async () => {
   try {
-    const posts = await prisma.post.findMany()
+    const posts = await prisma.post.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
     return posts
   } catch (error) {
     throw new Error("Failed to fetch posts!")

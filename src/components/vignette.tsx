@@ -21,15 +21,21 @@ export default function Vignette({
         <div className="w-full h-full flex flex-col lg:flex-row justify-between items-start gap-8">
           <div className="w-full lg:w-1/2 h-1/2 md:h-full relative">
             <Image
-              src="/malice.jpg"
+              className="rounded-t-lg absolute object-cover"
+              src={
+                item.image
+                  ? process.env.NEXT_PUBLIC_AWS_BUCKET_URL + `${item?.image}`
+                  : "/flower.jpg"
+              }
               fill
-              priority
-              className="object-cover absolute"
-              alt="image"
+              alt=""
             />
           </div>
           <div className="w-full md:w-1/2 h-1/2 md:h-full text-sm font-medium flex flex-col justify-end items-end">
-            <Link href={`/work/${item.id}`} className="text-4xl font-semibold font-PlayfairDisplay">
+            <Link
+              href={`/work/${item.id}`}
+              className="text-4xl font-semibold font-PlayfairDisplay"
+            >
               {item.title}
             </Link>
             <hr className="w-64 h-0.5 mx-auto my-4 border-0 rounded md:my-10 bg-zinc-300" />

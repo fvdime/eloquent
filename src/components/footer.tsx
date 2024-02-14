@@ -28,7 +28,7 @@ export default function Footer() {
         <section className="w-full h-full flex flex-col justify-center items-center">
           <h1 className="text-7xl md:text-8xl    font-PlayfairDisplay text-zinc-900">Eloquent Studio®</h1>
         </section>
-        <section className="w-full h-full flex flex-col md:flex-row items-center justify-between gap-16">
+        <section className="w-full h-full flex flex-col md:flex-row items-center justify-between gap-16 sm:mt-8">
           <form className="md:w-1/2 w-full">
             <h1 className="font-medium text-lg">
               Get more about us insights straight to your inbox.

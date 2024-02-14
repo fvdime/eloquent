@@ -18,7 +18,7 @@ export default async function Home() {
   return (
     <>
       <HeroBanner />
-      <div className="h-[5vh] w-full"/>
+      <div className="h-[20vh] w-full"/>
       <HorizontalGallery/>
       <div className="h-[30vh] w-full"/>
       <CursorFollower featuredPosts={featuredPosts}/>

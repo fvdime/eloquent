@@ -1,6 +1,5 @@
 import { getSinglePost } from "@/actions/post.actions";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 export default async function SinglePostPage({ params }: any) {
@@ -34,16 +33,22 @@ export default async function SinglePostPage({ params }: any) {
           <div className="my-8">
             {/*  group outline-none focus:scale-105 hover:scale-105 active:scale-100 transition duration-500 ease-in */}
             <div className="w-full h-[70vh] relative">
-              <a href="#">
-                <Image
-                  className="rounded-t-lg absolute object-cover"
-                  src="/malice.jpg"
-                  fill
-                  alt=""
-                />
-              </a>
+              <Image
+                className="rounded-t-lg absolute object-cover"
+                src={
+                  singlePost?.image
+                    ? process.env.NEXT_PUBLIC_AWS_BUCKET_URL +
+                      `${singlePost?.image}`
+                    : "/flower.jpg"
+                }
+                fill
+                alt=""
+              />
             </div>
-            <p className="my-8">{singlePost?.content}</p>
+            <div
+              className="my-8"
+              dangerouslySetInnerHTML={{ __html: singlePost?.content || "" }}
+            ></div>
           </div>
         </div>
       </div>

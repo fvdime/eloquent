@@ -1,97 +1,93 @@
-// "use server"
+"use server"
 
-// import prisma from "@/libs/prisma"
-// import { NextResponse } from "next/server"
-// import bcrypt from 'bcrypt'
-// import { z } from 'zod'
-// import { signJWT } from "@/libs/auth"
+import prisma from "@/libs/prisma"
+import { NextResponse } from "next/server"
+import bcrypt, { compare } from 'bcrypt'
+import { z } from 'zod'
+import { revalidatePath } from 'next/cache'
+import { signToken } from "@/libs/token"
+import { LoginParams, RegisterParams } from "@/libs/types"
 
-// const EXP_TIME = 30 * 24 * 60 * 60 * 1000
+const registerSchema = z.object({
+  name: z.string().min(1),
+  password: z.string().min(6),
+  email: z
+    .string()
+    .min(1, { message: 'This field has to be filled.' })
+    .email('This is not a valid email.'),
+});
 
-// const registerSchema = z.object({
-//   name: z.string().min(1),
-//   password: z.string().min(6),
-//     email: z
-//         .string()
-//         .min(1, { message: 'This field has to be filled.' })
-//         .email('This is not a valid email.'),
-// });
+export const registerUser = async ({ name, email, password }: RegisterParams) => {
 
-// export const register = async (formData: FormData) => {
+  // const name = formData.get("name") ;
+  // const email = formData.get("email") ;
+  // const password = formData.get("password") as string | nu
+  try {
+    console.log(name, email, password)
+    if (!name || !email || !password) {
+      return new NextResponse("Missing Credentials!", { status: 400 })
+    }
 
-//   // const name = formData.get("name") ;
-//   // const email = formData.get("email") ;
-//   // const password = formData.get("password") as string | null;
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        email: email
+      }
+    })
 
-  
-//   try {
-//     const isValidData = registerSchema.parse({
-//       name: formData.get("name") as string | null,
-//       email: formData.get("email") as string | null,
-//       password: formData.get("password") as string | null,
-//     })
-  
-//     console.log(isValidData)
-//     if (!isValidData.name || !isValidData.email || !isValidData.password) {
-//       return new NextResponse("Missing Credentials!", { status: 400 })
-//     }
-  
-//     const existingUser = await prisma.user.findFirst({
-//       where: {
-//         email: isValidData.email 
-//       }
-//     })
-  
-//     if (existingUser) return new NextResponse("User already exists!", { status: 401 })
-  
-//     const hashedPassword = await bcrypt.hash(isValidData.password, 12)
+    if (existingUser) return new NextResponse("User already exists!", { status: 401 })
 
-//     const newUser = await prisma.user.create({
-//       data: {
-//         email: isValidData.email,
-//         name: isValidData.name,
-//         password: hashedPassword,
-//       }
-//     })
+    const hashedPassword = await bcrypt.hash(password, 12)
 
-//     if (newUser) {
-//       const token = await signJWT(
-//         { sub: newUser.id!, role: newUser.role! },
-//         { exp: "8h" }
-//       )
+    const user = await prisma.user.create({
+      data: {
+        email: email,
+        name: name,
+        password: hashedPassword,
+      }
+    })
+    // revalidatePath(path)
 
-//       console.log("NEW USER::::::", JSON.stringify(newUser));
+    if (user) {
+      const response = await signToken({ user });
+      console.log(response); // Make sure to handle the response accordingly
+    }
+    
+  } catch (error) {
+    return console.log(error)
+  }
 
-  
-//       const tokenMaxAge = EXP_TIME * 60
-  
-//       const cookieOptions = {
-//         name: "token",
-//         value: token,
-//         httpOnly: true,
-//         path: '/',
-//         secure: process.env.NODE_ENV !== "development",
-//         maxAge: tokenMaxAge
-//       }
-  
-//       const response = new NextResponse(JSON.stringify({status: "success", token}), { status: 200, headers: { "Content-Type": "application/json"}})
-  
-//       await Promise.all([
-//         response.cookies.set(cookieOptions),
-//         response.cookies.set({
-//           name: "logged-in",
-//           value: "true",
-//           maxAge: tokenMaxAge
-//         })
-//       ])
-      
-//       return response
-//     }
+}
 
-//     // return new NextResponse(JSON.stringify({ message: "User not created" }), { status: 401 })
+export const loginUser = async ({ email, password }: LoginParams) => {
 
-//   } catch (error) {
-//     return console.log(error)
-//   }
+  // const name = formData.get("name") ;
+  // const email = formData.get("email") ;
+  // const password = formData.get("password") as string | nu
+  try {
+    console.log(email, password)
+    if ( !email || !password) {
+      return new NextResponse("Missing Credentials!", { status: 400 })
+    }
 
-// }
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email
+      }
+    })
+
+    if (!user || !(await compare(password, user.password! ))) {
+      return new NextResponse(JSON.stringify({ message: "Wrong Credentials!" }), { status: 401 })
+    }
+
+    // revalidatePath(path)
+
+    if (user) {
+      const response = await signToken({ user });
+      console.log(response); // Make sure to handle the response accordingly
+    }
+    
+  } catch (error) {
+    return console.log(error)
+  }
+
+}

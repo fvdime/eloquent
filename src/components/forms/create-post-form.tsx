@@ -1,48 +1,92 @@
 "use client";
 
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Editor from "../admin-props/editor";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { createPost, getSinglePost, updatePost } from "@/actions/post.actions";
 
-export default function CreatePostForm() {
+type PostFormProps = {
+  postId?: string;
+  type: "Create" | "Update";
+};
+
+export default function CreatePostForm({ type, postId }: PostFormProps) {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  // const [image, setImage] = useState<File | null>(null); // Initialize as null
   const [content, setContent] = useState("");
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  useEffect(() => {
+    async function fetchPostData() {
+      try {
+        if (type === "Update" && postId) {
+          const data = await getSinglePost(postId);
+          setTitle(data?.title || "");
+          setDescription(data?.description || "");
+          setContent(data?.content || "");
+        }
+      } catch (error) {
+        console.error("Error fetching post data:", error);
+      }
+    }
 
-    const input: any = document.getElementById("image")
+    fetchPostData();
+  }, [type, postId]);
+
+  async function handleSubmit() {
+    const input: any = document.getElementById("image");
+
+    const path = "/admin";
 
     const formData = new FormData();
 
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("image", input?.files[0])
+    formData.append("image", input?.files[0]);
     formData.append("content", content);
 
     console.log("Form submitted with:", formData);
 
-    try {
-      const response = await axios.post("http://localhost:3000/api/post/create",
-        formData
-      );
-      toast.success("Successfully Created!");
-      router.push("/admin");
+    if (type === "Create") {
+      try {
+        const post = await createPost({ formData, path });
+        toast.success("Successfully Created!");
+        router.push("/admin");
 
-      console.log("Response:", response.data);
-    } catch (error) {
-      router.refresh();
-      toast.error("Permission denied!");
-      console.error("Error:", error);
+        console.log("Response:", post);
+      } catch (error) {
+        router.refresh();
+        toast.error("Permission denied!");
+        console.error("Error:", error);
+      }
     }
-  };
+
+    if (type === "Update") {
+      if (!postId) {
+        router.back();
+        return;
+      }
+
+      try {
+        const updatedPost = await updatePost({
+          path: `/admin/${postId}`,
+          formData,
+          id: postId,
+        });
+
+        if (updatedPost) {
+          toast.success("Successfully updated!");
+          router.push(`/admin/${postId}`);
+        }
+      } catch (error) {
+        toast.error("Permission denied!");
+        console.log(error);
+      }
+    }
+  }
 
   return (
     <>
@@ -74,7 +118,7 @@ export default function CreatePostForm() {
               type="submit"
               className="text-white bg-zinc-700 hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-zinc-300 font-medium rounded-lg text-sm px-4 md:px-6 py-1.5 text-center"
             >
-              Post ₊˚⊹♡
+              {type === "Create" ? "Post ₊˚⊹♡" : "Update ₊˚⊹♡"}
             </button>
           </div>
         </div>
@@ -97,22 +141,26 @@ export default function CreatePostForm() {
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-full cursor-pointer bg-gray-50 focus:outline-none px-4 py-1"
           />
         </div>
-        <div>
-          <label
-            className="block mb-2 text-sm font-medium text-gray-900"
-            htmlFor="file_input"
-          >
-            Upload file
-          </label>
-          <input
-            name="image"
-           id="image"
-           accept="image/*"
-            required
-            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-            type="file"
-          />
-        </div>
+        {type === "Create" ? (
+          <div>
+            <label
+              className="block mb-2 text-sm font-medium text-gray-900"
+              htmlFor="file_input"
+            >
+              Upload file
+            </label>
+            <input
+              name="image"
+              id="image"
+              accept="image/*"
+              required
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+              type="file"
+            />
+          </div>
+        ) : (
+          ""
+        )}
         <Editor setContent={setContent} content={content} />
       </div>
       <Toaster position="top-right" reverseOrder={false} />

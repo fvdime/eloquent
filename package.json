@@ -18,6 +18,7 @@
     "@editorjs/table": "^2.3.0",
     "@prisma/client": "^5.9.1",
     "@studio-freight/lenis": "^1.0.34",
+    "@vercel/postgres": "^0.7.2",
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "framer-motion": "^11.0.3",

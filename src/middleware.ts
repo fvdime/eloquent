@@ -25,19 +25,10 @@ export async function middleware(req: NextRequest) {
     return;
   }
 
-  if (nextUrl.pathname.startsWith("/api/auth/login")) {
-    console.log("Allowing access to /api/auth/login without authentication");
-    return NextResponse.next();
-  }
-
   if (nextUrl.pathname === "/" || nextUrl.pathname.startsWith("/work") && !token) {
     return NextResponse.next();
   }
   // Allow access to /, /work, and /work/:path* for all users
-  // if (nextUrl.pathname.startsWith("/") || nextUrl.pathname.startsWith("/work")) {
-  //   console.log("Allowing access to:", nextUrl.pathname);
-  //   return NextResponse.next();
-  // }
 
   if (
     !token &&

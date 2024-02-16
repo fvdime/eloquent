@@ -1,4 +1,4 @@
-import { deletePost, getSinglePost } from "@/actions/post.actions";
+import { getSinglePost } from "@/actions/post.actions";
 import DeleteButton from "@/components/admin-props/delete-button";
 import Image from "next/image";
 import React from "react";
@@ -33,14 +33,13 @@ export default async function AdminSinglePage({ params }: any) {
             </p>
           </div>
           <div className="my-8">
-            {/*  group outline-none focus:scale-105 hover:scale-105 active:scale-100 transition duration-500 ease-in */}
             <div className="w-full h-[70vh] relative">
               <Image
                 className="rounded-t-lg absolute object-cover"
                 src={
                   singlePost?.image
                     ? process.env.NEXT_PUBLIC_AWS_BUCKET_URL +
-                      `${singlePost?.image}-1707885151622`
+                      `${singlePost?.image}`
                     : "/flower.jpg"
                 }
                 fill

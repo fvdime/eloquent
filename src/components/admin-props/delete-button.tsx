@@ -1,21 +1,22 @@
-"use client"
+"use client";
 
 import { deletePost } from "@/actions/post.actions";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 interface DeleteButtonProps {
-  postId: string; // Assuming postId is a string, adjust type accordingly
+  postId: string;
 }
 
 export default function DeleteButton({ postId }: DeleteButtonProps) {
-
-  console.log("POSTID:::::"+postId)
   const router = useRouter();
 
   const handleDelete = async () => {
     try {
-      await deletePost(postId);
+      console.log("POSTID:::::" + postId);
+
+      const path = "/admin";
+      await deletePost({ id: postId, path });
       console.log("DELETED");
       router.push("/admin");
     } catch (error) {

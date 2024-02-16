@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import toast, { Toaster } from 'react-hot-toast'
 import { useRouter } from "next/navigation";
+import { loginUser, registerUser } from "@/actions/auth.action";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -16,28 +17,20 @@ export default function LoginForm() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const formData = new FormData();
-
-    formData.append("email", email);
-    formData.append("password", password);
-
-    console.log("Form submitted with:", formData);
-
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        formData
-      );
+      const user = await loginUser({ email, password})
+      console.log(user)
       
       toast.success('Successfully!')
       router.push("/admin")
       
-      console.log("Response:", response.data);
+      console.log("Response:", user);
     } catch (error) {
       router.refresh()
       toast.error('Permission denied!')
       console.error("Error:", error);
     }
+
   };
 
   return (

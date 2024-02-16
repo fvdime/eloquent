@@ -1,5 +1,6 @@
 import { jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
+import jwt from 'jsonwebtoken'
 
 
 export const signJWT = async (
@@ -38,4 +39,18 @@ export function getToken() {
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
   return token || "";
+}
+
+export function getUserIdFromToken(token: string) {
+  try {
+    const decodedToken = jwt.decode(token);
+    // If decodedToken is null, token is invalid
+    if (!decodedToken) {
+        throw new Error('Invalid token');
+    }
+    return decodedToken.sub;
+} catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+}
 }

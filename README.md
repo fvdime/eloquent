@@ -19,8 +19,6 @@
 
 ### Built With
 
-Build with:
-
 * Next JS
 * Next JS Server Actions
 * Amazon S3 
@@ -31,11 +29,6 @@ Build with:
 * Framer Motion
 
 <p align="right">(<a href="#readme-top">↑</a>)</p>
-
-
-### Getting Started
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 ## Installation
 
